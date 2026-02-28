@@ -144,6 +144,18 @@ export default function SeismicBannerGenerator() {
 
       // 8. Generate and Trigger Download
       const image = canvas.toDataURL("image/png");
+      await fetch("/api/analytics/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectSlug: "banner",
+          projectName: "Seismic Banner Generator",
+          imageData: image,
+          generatedByName: name,
+          generatedByHandle: handle,
+        }),
+      }).catch(() => null);
+
       const link = document.createElement("a");
       link.href = image;
       link.download = `Seismic_Banner_${handle || 'Profile'}.png`;
