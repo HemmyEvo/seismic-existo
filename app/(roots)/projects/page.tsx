@@ -75,12 +75,14 @@ export default function ProjectsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col items-center justify-center py-20 px-4 text-center border border-white/5 bg-white/5 backdrop-blur-md rounded-3xl"
+              
             >
+<div className="flex flex-col items-center justify-center py-20 px-4 text-center border border-white/5 bg-white/5 backdrop-blur-md rounded-3xl">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Coming Soon</h2>
               <p className="text-stone-400 text-lg max-w-md">
                 Exciting new projects are currently in the works. Check back later to see what&apos;s been built!
               </p>
+</div>
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
