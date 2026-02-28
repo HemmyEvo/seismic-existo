@@ -54,12 +54,20 @@ export default function Header() {
           </Link>
 
           {/* --- PROJECTS BUTTON --- */}
-          <Link 
-            href="/projects" 
-            className="px-5 py-2 md:px-6 md:py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm md:text-base font-bold rounded-full transition-all shadow-[0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.1)] active:scale-95"
-          >
-            Projects
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link 
+              href="/projects" 
+              className="px-4 py-2 md:px-5 md:py-2.5 bg-white/10 hover:bg-white/20 border border-white/10 text-white text-sm md:text-base font-bold rounded-full transition-all"
+            >
+              Projects
+            </Link>
+            <Link 
+              href="/admin" 
+              className="px-4 py-2 md:px-5 md:py-2.5 bg-[#8b5a2b]/80 hover:bg-[#8b5a2b] border border-white/10 text-white text-sm md:text-base font-bold rounded-full transition-all"
+            >
+              Admin
+            </Link>
+          </div>
 
         </div>
       </motion.div>

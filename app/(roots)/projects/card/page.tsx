@@ -214,6 +214,18 @@ export default function SeismicCardGenerator() {
 
       // 11. Generate and Trigger Download
       const finalImage = canvas.toDataURL("image/png");
+      await fetch("/api/analytics/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectSlug: "card",
+          projectName: "Seismic Card Generator",
+          imageData: finalImage,
+          generatedByName: name,
+          generatedByHandle: handle,
+        }),
+      }).catch(() => null);
+
       const link = document.createElement("a");
       link.href = finalImage;
       link.download = `Seismic_Card_${handle || 'Citizen'}.png`;
