@@ -275,7 +275,83 @@ export default function SeismicHomePageBrown() {
         </div>
       </section>
 
-      {/* --- 3. FOUNDER SECTION --- */}
+
+ {/* --- 3. COMMUNITY PROJECTS --- */}
+      <section className="py-12 md:py-24 relative z-40 px-4 sm:px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ width: '100%' }}
+          >
+            <div className="text-center mb-10 md:mb-16 px-2">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 bg-linear-to-r from-white to-stone-400 bg-clip-text text-transparent">
+                My Community Projects
+              </h2>
+              <p className="text-sm sm:text-lg text-stone-400 max-w-2xl mx-auto bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10">
+                Built by Atilola Emmanuel — check out my projects building on Seismic
+              </p>
+
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} style={{ display: 'inline-block', marginTop: '1.5rem' }}>
+                <button
+                  onClick={() => window.location.href = '/projects'}
+                  className="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition-all inline-flex items-center gap-2 text-sm md:text-base cursor-pointer"
+                >
+                  <span>View all projects</span>
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {communityProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -5 }}
+                style={{ display: 'block' }}
+              >
+                <div className="relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 p-1.5 md:p-2 shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all duration-500 group">
+                  <div className="aspect-video relative overflow-hidden rounded-xl">
+                    <Image 
+                      src={project.image} 
+                      alt={project.title}
+                      fill
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+
+                    <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90 lg:opacity-60 lg:group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
+
+                    {/* Always visible on mobile, reveal on hover for desktop */}
+                    <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-0 lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-300">
+                      <div className="backdrop-blur-md bg-black/60 border border-white/10 rounded-xl p-3">
+                        <p className="text-white font-bold text-sm truncate">{project.title}</p>
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-stone-300 text-xs truncate mr-2">{project.description}</span>
+                          <Link
+                            href={project.link}
+                            className="text-[#e2c19d] hover:text-white transition-colors flex items-center gap-1 text-xs shrink-0"
+                          >
+                            <span>View</span>
+                            <ExternalLink className="w-3 h-3" />
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* --- 4. FOUNDER SECTION --- */}
       <section 
         ref={(el) => { sectionRefs.current[1] = el; }}
         data-video-index="1"
@@ -351,80 +427,7 @@ export default function SeismicHomePageBrown() {
         </div>
       </section>
 
-      {/* --- 4. COMMUNITY PROJECTS --- */}
-      <section className="py-12 md:py-24 relative z-40 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            style={{ width: '100%' }}
-          >
-            <div className="text-center mb-10 md:mb-16 px-2">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 bg-linear-to-r from-white to-stone-400 bg-clip-text text-transparent">
-                My Community Projects
-              </h2>
-              <p className="text-sm sm:text-lg text-stone-400 max-w-2xl mx-auto bg-white/5 backdrop-blur-md p-4 rounded-xl border border-white/10">
-                Built by Atilola Emmanuel — check out my projects building on Seismic
-              </p>
-
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} style={{ display: 'inline-block', marginTop: '1.5rem' }}>
-                <button
-                  onClick={() => window.location.href = '/projects'}
-                  className="px-6 py-3 bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold rounded-full hover:bg-white/20 transition-all inline-flex items-center gap-2 text-sm md:text-base cursor-pointer"
-                >
-                  <span>View all projects</span>
-                  <ArrowRight className="w-5 h-5" />
-                </button>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {communityProjects.map((project, index) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -5 }}
-                style={{ display: 'block' }}
-              >
-                <div className="relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 p-1.5 md:p-2 shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all duration-500 group">
-                  <div className="aspect-video relative overflow-hidden rounded-xl">
-                    <Image 
-                      src={project.image} 
-                      alt={project.title}
-                      fill
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-
-                    <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90 lg:opacity-60 lg:group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
-
-                    {/* Always visible on mobile, reveal on hover for desktop */}
-                    <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-0 lg:translate-y-4 lg:opacity-0 lg:group-hover:translate-y-0 lg:group-hover:opacity-100 transition-all duration-300">
-                      <div className="backdrop-blur-md bg-black/60 border border-white/10 rounded-xl p-3">
-                        <p className="text-white font-bold text-sm truncate">{project.title}</p>
-                        <div className="flex items-center justify-between mt-2">
-                          <span className="text-stone-300 text-xs truncate mr-2">{project.description}</span>
-                          <Link
-                            href={project.link}
-                            className="text-[#e2c19d] hover:text-white transition-colors flex items-center gap-1 text-xs shrink-0"
-                          >
-                            <span>View</span>
-                            <ExternalLink className="w-3 h-3" />
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* --- 5. LEADERSHIP & STATS --- */}
       <section className="py-12 md:py-24 flex items-center justify-center px-4 sm:px-6 relative z-50">
