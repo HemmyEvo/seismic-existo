@@ -61,12 +61,7 @@ export default function Header() {
             >
               Projects
             </Link>
-            <Link 
-              href="/admin" 
-              className="px-4 py-2 md:px-5 md:py-2.5 bg-[#8b5a2b]/80 hover:bg-[#8b5a2b] border border-white/10 text-white text-sm md:text-base font-bold rounded-full transition-all"
-            >
-              Admin
-            </Link>
+      
           </div>
 
         </div>

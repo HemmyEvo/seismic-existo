@@ -22,8 +22,7 @@ export default function ProjectsPage() {
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Back to Home
         </Link>
-        <Link href="/admin" className="px-4 py-2 bg-[#8b5a2b]/80 rounded-full text-sm font-semibold text-white">Admin Dashboard</Link>
-      </nav>
+       </nav>
 
       <main className="relative z-10 grow px-4 sm:px-6 pt-6 pb-24 max-w-7xl mx-auto w-full">
         <div className="text-left mb-16 md:mb-24">
