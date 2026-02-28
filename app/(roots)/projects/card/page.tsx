@@ -14,12 +14,12 @@ const magnitudes = [
   { id: 1, name: "Magnitude 1", color: "#E6E6B8", chipUrl: "/mag1.jpg" },
   { id: 2, name: "Magnitude 2", color: "#48D1CC", chipUrl: "/mag2.jpeg" },
   { id: 3, name: "Magnitude 3", color: "#228B22", chipUrl: "/mag3.jpeg" },
-  { id: 4, name: "Magnitude 4", color: "#90EE90", chipUrl: "/mag4.jpg" },
-  { id: 5, name: "Magnitude 5", color: "#9ACD32", chipUrl: "/mag5.jpg" },
-  { id: 6, name: "Magnitude 6", color: "#FFD700", chipUrl: "/mag6.jpg" },
+  { id: 4, name: "Magnitude 4", color: "#90EE90", chipUrl: "mag4.jpg" },
+  { id: 5, name: "Magnitude 5", color: "#9ACD32", chipUrl: "mag5.jpg" },
+  { id: 6, name: "Magnitude 6", color: "#FFD700", chipUrl: "mag6.jpg" },
   { id: 7, name: "Magnitude 7", color: "#FF8C00", chipUrl: "/mag7.jpg" },
-  { id: 8, name: "Magnitude 8", color: "#FF0000", chipUrl: "/mag8.jpg" },
-  { id: 9, name: "Magnitude 9", color: "#00D2FF", chipUrl: "/mag9.jpg" }
+  { id: 8, name: "Magnitude 8", color: "#FF0000", chipUrl: "mag8.jpg" },
+  { id: 9, name: "Magnitude 9", color: "#00D2FF", chipUrl: "mag9.jpg" }
 ];
 
 export default function SeismicCardGenerator() {
@@ -86,7 +86,7 @@ export default function SeismicCardGenerator() {
       ctx.fillStyle = reflection;
       ctx.fill();
 
-      // 3. ADD LOW BLACK OPACITY OVERLAY (Matches preview update)
+      // 3. Low Black Opacity Overlay
       ctx.fillStyle = 'rgba(0, 0, 0, 0.4)'; 
       ctx.beginPath();
       ctx.roundRect(0, 0, canvas.width, canvas.height, 40);
@@ -111,7 +111,7 @@ export default function SeismicCardGenerator() {
         ctx.drawImage(logoImg, canvas.width - 60 - textWidth - logoWidth - 15, topY - 35, logoWidth, logoHeight);
       }
 
-      // 6. Draw Magnitude Image (The "Chip" - Set to CONTAIN)
+      // 6. Draw Magnitude Image (The "Chip" - Set to COVER & CENTERED)
       const chipW = 140;
       const chipH = 95;
       const chipX = 60;
@@ -131,21 +131,23 @@ export default function SeismicCardGenerator() {
       ctx.roundRect(chipX, chipY, chipW, chipH, 16);
       ctx.clip();
       
-      // Calculate object-fit CONTAIN for chip image
+      // Calculate object-fit COVER for chip image
       const cAspect = chipImg.width / chipImg.height;
       const bAspect = chipW / chipH;
       let dW, dH, dX, dY;
       
       if (cAspect > bAspect) {
-        dW = chipW;
-        dH = chipW / cAspect;
-        dX = chipX;
-        dY = chipY + (chipH - dH) / 2;
-      } else {
+        // Image is wider than container aspect ratio
         dH = chipH;
         dW = chipH * cAspect;
         dY = chipY;
-        dX = chipX + (chipW - dW) / 2;
+        dX = chipX - (dW - chipW) / 2; // Center horizontally
+      } else {
+        // Image is taller than container aspect ratio
+        dW = chipW;
+        dH = chipW / cAspect;
+        dX = chipX;
+        dY = chipY - (dH - chipH) / 2; // Center vertically
       }
       ctx.drawImage(chipImg, dX, dY, dW, dH);
       ctx.restore();
@@ -375,14 +377,13 @@ export default function SeismicCardGenerator() {
                     {/* Light Reflection Overlay */}
                     <div className="absolute inset-0 bg-linear-to-br from-white/20 via-transparent to-black/30 pointer-events-none" />
                     
-                    {/* NEW: Low Black Opacity Overlay for better text readability */}
+                    {/* Low Black Opacity Overlay */}
                     <div className="absolute inset-0 bg-black/40 pointer-events-none" />
 
                     {/* Top Row */}
                     <div className="relative z-10 flex justify-between items-start">
                       <h4 className="text-white/70 font-semibold tracking-[0.2em] text-xs md:text-sm uppercase mt-2">Encrypted Citizen</h4>
                       
-                      {/* Logo & Seismic Text synced to match download */}
                       <div className="h-8 md:h-10 relative flex items-center">
                          {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img src="/logo.png" alt="Seismic Logo" className="h-full object-contain" onError={(e) => e.currentTarget.style.display = 'none'} />
@@ -392,9 +393,9 @@ export default function SeismicCardGenerator() {
 
                     {/* Middle Row: Chip & Rank */}
                     <div className="relative z-10 flex items-center gap-4 md:gap-6 mt-4 md:mt-8">
-                      {/* The "Chip" - Updated to CONTAIN */}
-                      <div className="w-16 h-12 md:w-28 md:h-20 bg-black/20 rounded-md md:rounded-xl overflow-hidden border-2 border-white/30 shadow-inner flex items-center justify-center">
-                        <Image src={activeMag.chipUrl} alt="Chip" width={112} height={80} className="w-full h-full object-contain" />
+                      {/* The "Chip" - Updated to object-cover */}
+                      <div className="w-16 h-12 md:w-28 md:h-20 bg-black/20 rounded-md md:rounded-xl overflow-hidden border-2 border-white/30 shadow-inner">
+                        <Image src={activeMag.chipUrl} alt="Chip" width={112} height={80} className="w-full h-full object-cover" />
                       </div>
                       <h3 className="text-white font-bold text-xl md:text-3xl drop-shadow-md">{activeMag.name.toUpperCase()}</h3>
                     </div>
