@@ -12,7 +12,10 @@ const banners = [
   "/background.avif", 
   "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop", 
   "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=2832&auto=format&fit=crop", 
-  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"  
+  "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"  ,
+
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNE-UpGrUkES7gC1j-L_fdoNT0PE8yXlnBb2rCYCaFNw&s=10",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAIVdEywzQywvIuufToE-aQDlqBzphmsjJK9L_EZWo2g&s=10"
 ];
 
 const captions = [
@@ -100,12 +103,12 @@ export default function SeismicBannerGenerator() {
       // 6. Draw User Text
       ctx.fillStyle = '#ffffff';
       ctx.font = '900 65px system-ui, -apple-system, sans-serif';
-      const displayName = name || 'Atilola Emmanuel';
+      const displayName = name || 'Existo';
       ctx.fillText(displayName, 80, 360);
 
       ctx.fillStyle = '#cda577';
       ctx.font = 'bold 35px system-ui, -apple-system, sans-serif';
-      const displayHandle = handle ? `@${handle}` : '@hemmyevo';
+      const displayHandle = handle ? `@${handle}` : '@existo999';
       ctx.fillText(displayHandle, 85, 420);
 
       // 7. Draw Seismic Logo Pill
@@ -209,7 +212,7 @@ export default function SeismicBannerGenerator() {
                         <User className="absolute left-4 top-3.5 w-4 h-4 text-stone-500" />
                         <input 
                           type="text" 
-                          placeholder="Atilola Emmanuel"
+                          placeholder="Existo"
                           value={name}
                           onChange={(e) => setName(e.target.value)}
                           maxLength={25}
@@ -223,7 +226,7 @@ export default function SeismicBannerGenerator() {
                         <AtSign className="absolute left-4 top-3.5 w-4 h-4 text-stone-500" />
                         <input 
                           type="text" 
-                          placeholder="hemmyevo"
+                          placeholder="existo999"
                           value={handle}
                           onChange={(e) => setHandle(e.target.value.replace('@', ''))}
                           maxLength={15}
