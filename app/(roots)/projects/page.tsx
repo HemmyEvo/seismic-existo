@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Github, Globe } from 'lucide-react';
+import { ArrowLeft, Github, Globe } from 'lucide-react';
 import Link from 'next/link';
 
 // --- TYPES ---
@@ -75,7 +76,7 @@ const categories = ["All", "DeFi", "Payments", "Analytics", "Infrastructure", "N
 
 export default function ProjectsPage() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [, setHoveredProject] = useState<string | null>(null);
 
   const filteredProjects = activeCategory === "All" 
     ? allProjects 
@@ -92,7 +93,7 @@ export default function ProjectsPage() {
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
       </div>
 
-      {/* --- NAVIGATION (With responsive top padding for Header) --- */}
+      {/* --- NAVIGATION --- */}
       <nav className="relative z-50 w-full px-6 pt-28 md:pt-36 pb-6 max-w-7xl mx-auto flex justify-between items-center">
         <Link 
           href="/" 
@@ -104,7 +105,7 @@ export default function ProjectsPage() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <main className="relative z-10 flex-grow px-4 sm:px-6 pt-6 pb-24 max-w-7xl mx-auto w-full">
+      <main className="relative z-10 grow px-4 sm:px-6 pt-6 pb-24 max-w-7xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -114,12 +115,12 @@ export default function ProjectsPage() {
           <div className="text-left mb-16 md:mb-24">
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">
               Ecosystem <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5a2b] via-[#e2c19d] to-[#cda577]">
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-[#8b5a2b] via-[#e2c19d] to-[#cda577]">
                 Projects
               </span>
             </h1>
             <p className="text-lg md:text-xl text-stone-400 max-w-2xl font-medium">
-              Explore the innovative products and infrastructure I've been building on top of the Seismic privacy network.
+              Explore the innovative products and infrastructure I&apos;ve been building on top of the Seismic privacy network.
             </p>
           </div>
         </motion.div>
@@ -138,7 +139,7 @@ export default function ProjectsPage() {
                 onClick={() => setActiveCategory(category)}
                 className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 border ${
                   activeCategory === category 
-                    ? 'bg-gradient-to-r from-[#8b5a2b] to-[#b88b4a] text-white border-transparent shadow-[0_4px_20px_rgba(139,90,43,0.3)]' 
+                    ? 'bg-linear-to-r from-[#8b5a2b] to-[#b88b4a] text-white border-transparent shadow-[0_4px_20px_rgba(139,90,43,0.3)]' 
                     : 'bg-white/5 backdrop-blur-md border-white/10 text-stone-400 hover:text-white hover:bg-white/10'
                 }`}
               >
@@ -160,12 +161,14 @@ export default function ProjectsPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
                   key={project.id}
-                  onMouseEnter={() => setHoveredProject(project.id)}
-                  onMouseLeave={() => setHoveredProject(null)}
                   style={{ display: 'block' }}
                 >
-                  <div className="group relative rounded-3xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 p-2 shadow-[0_15px_30px_rgba(0,0,0,0.3)]">
-                    <div className="aspect-[4/3] relative overflow-hidden rounded-2xl bg-[#111]">
+                  <div 
+                    className="group relative rounded-3xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 p-2 shadow-[0_15px_30px_rgba(0,0,0,0.3)]"
+                    onMouseEnter={() => setHoveredProject(project.id)}
+                    onMouseLeave={() => setHoveredProject(null)}
+                  >
+                    <div className="aspect-4/3 relative overflow-hidden rounded-2xl bg-[#111]">
                       {/* Fallback styling in case images are missing */}
                       <img 
                         src={project.image} 
@@ -174,7 +177,7 @@ export default function ProjectsPage() {
                       />
                       
                       {/* Default subtle gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
+                      <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/40 to-transparent opacity-90 transition-opacity duration-300 group-hover:opacity-100" />
                       
                       {/* Content Overlay */}
                       <div className="absolute inset-0 p-6 flex flex-col justify-end">
