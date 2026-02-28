@@ -15,7 +15,9 @@ const banners = [
   "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"  ,
 
 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNE-UpGrUkES7gC1j-L_fdoNT0PE8yXlnBb2rCYCaFNw&s=10",
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAIVdEywzQywvIuufToE-aQDlqBzphmsjJK9L_EZWo2g&s=10"
+"https://www.nftgators.com/wp-content/uploads/2025/11/Seismic-Web3-Security.jpg",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQku3hmDo9_fNZ3RhGz2v4ZgNpJ2j6r819L3jISGhrOjA&s=10",
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS26vOASZwKIVoaMO5U-s1h1OhbsPsdN78ppWQemtpVg&s=10"
 ];
 
 const captions = [
@@ -288,10 +290,10 @@ export default function SeismicBannerGenerator() {
                     <div className="relative z-10 flex justify-between items-end w-full mt-auto">
                       <div className="flex flex-col gap-1">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-none mb-1 flex items-center gap-3">
-                          {name || 'Atilola Emmanuel'}
+                          {name || 'Existo'}
                         </h2>
                         <p className="text-[#cda577] text-lg sm:text-xl md:text-2xl font-bold tracking-wide opacity-90 flex items-center gap-1">
-                          {handle ? `@${handle}` : '@hemmyevo'}
+                          {handle ? `@${handle}` : '@existo999'}
                         </p>
                       </div>
 
