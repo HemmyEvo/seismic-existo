@@ -18,7 +18,7 @@ const magnitudes = [
   { id: 4, name: "Magnitude 4", color: "#b45309", chipUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop" }, // Amber/Brown
   { id: 5, name: "Magnitude 5", color: "#be123c", chipUrl: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=200&h=200&fit=crop" }, // Rose
   { id: 6, name: "Magnitude 6", color: "#6d28d9", chipUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop" }, // Purple
-  { id: 7, name: "Magnitude 7", color: "#334155", chipUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop" }, // Slate
+  { id: 7, name: "Magnitude 7", color: "#334155", chipUrl: "/mag7.jpg" }, // Slate
   { id: 8, name: "Magnitude 8", color: "#047857", chipUrl: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=200&h=200&fit=crop" }, // Emerald
   { id: 9, name: "Magnitude 9", color: "#000000", chipUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop" }  // Black/Obsidian
 ];
