@@ -12,15 +12,15 @@ const specialties = ["Leader", "Builder", "Content Creator"];
 
 // You can replace the 'chipUrl' with your actual magnitude images
 const magnitudes = [
-  { id: 1, name: "Magnitude 1", color: "#1e293b", chipUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop" }, // Dark Slate
-  { id: 2, name: "Magnitude 2", color: "#0f766e", chipUrl: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=200&h=200&fit=crop" }, // Teal
-  { id: 3, name: "Magnitude 3", color: "#4338ca", chipUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop" }, // Indigo
-  { id: 4, name: "Magnitude 4", color: "#b45309", chipUrl: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=200&h=200&fit=crop" }, // Amber/Brown
-  { id: 5, name: "Magnitude 5", color: "#be123c", chipUrl: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=200&h=200&fit=crop" }, // Rose
-  { id: 6, name: "Magnitude 6", color: "#6d28d9", chipUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop" }, // Purple
-  { id: 7, name: "Magnitude 7", color: "#334155", chipUrl: "/mag7.jpg" }, // Slate
-  { id: 8, name: "Magnitude 8", color: "#047857", chipUrl: "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?w=200&h=200&fit=crop" }, // Emerald
-  { id: 9, name: "Magnitude 9", color: "#000000", chipUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&h=200&fit=crop" }  // Black/Obsidian
+  { id: 1, name: "Magnitude 1", color: "#E6E6B8", chipUrl: "/mag1.jpg" }, // Dark Slate
+  { id: 2, name: "Magnitude 2", color: "#48D1CC", chipUrl: "/mag2.jpeg" }, // Teal
+  { id: 3, name: "Magnitude 3", color: "#228B22", chipUrl: "/mag3.jpeg" }, // Indigo
+  { id: 4, name: "Magnitude 4", color: "#90EE90", chipUrl: "mag4.jpg" }, // Amber/Brown
+  { id: 5, name: "Magnitude 5", color: "#9ACD32", chipUrl: "mag5.jpg" }, // Rose
+  { id: 6, name: "Magnitude 6", color: "#FFD700", chipUrl: "mag6.jpg" }, // Purple
+  { id: 7, name: "Magnitude 7", color: "#FF8C00", chipUrl: "/mag7.jpg" }, // Slate
+  { id: 8, name: "Magnitude 8", color: "#FF0000", chipUrl: "mag8.jpg" }, // Emerald
+  { id: 9, name: "Magnitude 9", color: "#00D2FF", chipUrl: "mag9.jpg" }  // Black/Obsidian
 ];
 
 export default function SeismicCardGenerator() {
@@ -29,7 +29,7 @@ export default function SeismicCardGenerator() {
   const [handle, setHandle] = useState<string>('existo999');
   const [specialty, setSpecialty] = useState<string>('Builder');
   const [magIndex, setMagIndex] = useState<number>(0);
-  const [userImage, setUserImage] = useState<string>('https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop'); // Default Avatar
+  const [userImage, setUserImage] = useState<string>('/profile.jpeg'); // Default Avatar
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
