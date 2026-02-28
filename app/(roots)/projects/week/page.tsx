@@ -240,6 +240,18 @@ export default function SeismicGreetingGenerator() {
       ctx.strokeRect(chipX, chipY, chipW, chipH);
 
       const finalImage = canvas.toDataURL("image/png");
+      await fetch("/api/analytics/download", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          projectSlug: "week",
+          projectName: "Seismic Week Greeting Generator",
+          imageData: finalImage,
+          generatedByName: name,
+          generatedByHandle: name,
+        }),
+      }).catch(() => null);
+
       const link = document.createElement("a");
       link.href = finalImage;
       link.download = `Seismic_${theme}_${name}.png`;
