@@ -42,9 +42,9 @@ const videos: Video[] = [
     id: "founder",
     src: "/videos/founder.mp4",
     title: "Founder's Vision",
-    description: "Lyron Co Ting Keh explains how Seismic is revolutionizing financial privacy on Web3.",
-    tweetUrl: "https://twitter.com/lyronctk/status/2",
-    author: "Lyron Co Ting Keh",
+    description: "Like all good tech stories, this one starts with a dating app.",
+    tweetUrl: "https://x.com/i/status/1902750731888656647",
+    author: "Lyron",
     authorHandle: "@lyronctk"
   }
 ];
@@ -404,11 +404,11 @@ export default function SeismicHomePageBrown() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-2">
-                      <span className="font-bold text-base text-white truncate">Lyron Co Ting Keh</span>
+                      <span className="font-bold text-base text-white truncate">Lyron</span>
                       <span className="text-sm text-stone-400">@lyronctk</span>
                     </div>
                     <p className="text-sm md:text-lg text-stone-300 mb-5 leading-relaxed">
-                      &ldquo;We&apos;re building the future of private, compliant financial infrastructure on Web3. Excited to share our vision with the community.&rdquo;
+                      &ldquo;Like all good tech stories, this one starts with a dating app.&rdquo;
                     </p>
                     <a
                       href={videos[1].tweetUrl}
