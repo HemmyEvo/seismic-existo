@@ -1,7 +1,9 @@
 import { ConvexHttpClient } from "convex/browser";
+import type { FunctionReference } from "convex/server";
 import { NextResponse } from "next/server";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const getProjectImagesFn = "projects:getProjectImages" as unknown as FunctionReference<"query">;
 
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!convexUrl) {
@@ -13,7 +15,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const limit = Number(searchParams.get("limit") ?? "50");
 
   const client = new ConvexHttpClient(convexUrl);
-  const data = await client.query("projects:getProjectImages", {
+  const data = await client.query(getProjectImagesFn, {
     projectSlug: id,
     limit: Number.isFinite(limit) ? limit : 50,
   });

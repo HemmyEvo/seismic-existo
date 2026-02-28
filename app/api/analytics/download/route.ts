@@ -1,7 +1,9 @@
 import { ConvexHttpClient } from "convex/browser";
+import type { FunctionReference } from "convex/server";
 import { NextResponse } from "next/server";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const logImageDownloadFn = "projects:logImageDownload" as unknown as FunctionReference<"mutation">;
 
 export async function POST(request: Request) {
   if (!convexUrl) {
@@ -15,7 +17,7 @@ export async function POST(request: Request) {
   }
 
   const client = new ConvexHttpClient(convexUrl);
-  const result = await client.mutation("projects:logImageDownload", {
+  const result = await client.mutation(logImageDownloadFn, {
     projectSlug: body.projectSlug,
     projectName: body.projectName,
     imageData: body.imageData,

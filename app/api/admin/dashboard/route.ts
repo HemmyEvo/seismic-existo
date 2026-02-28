@@ -1,7 +1,9 @@
 import { ConvexHttpClient } from "convex/browser";
+import type { FunctionReference } from "convex/server";
 import { NextResponse } from "next/server";
 
 const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+const getAdminDashboardFn = "projects:getAdminDashboard" as unknown as FunctionReference<"query">;
 
 export async function GET(request: Request) {
   if (!convexUrl) {
@@ -12,7 +14,7 @@ export async function GET(request: Request) {
   const limit = Number(searchParams.get("limit") ?? "25");
 
   const client = new ConvexHttpClient(convexUrl);
-  const data = await client.query("projects:getAdminDashboard", {
+  const data = await client.query(getAdminDashboardFn, {
     imagePreviewLimit: Number.isFinite(limit) ? limit : 25,
   });
 
