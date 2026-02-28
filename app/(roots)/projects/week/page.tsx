@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Download, Upload, Twitter, Sparkles, RefreshCw, Calendar } from 'lucide-react';
+import { Download, Twitter, RefreshCw, Calendar } from 'lucide-react';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -266,7 +267,7 @@ export default function SeismicGreetingGenerator() {
         <div className="text-center mb-10">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
             <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
-              Seismic <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#8b5a2b] to-[#e2c19d]">Greetings</span>
+              Seismic <span className="text-transparent bg-clip-text bg-linear-to-r from-[#8b5a2b] to-[#e2c19d]">Greetings</span>
             </h1>
             <p className="text-stone-400 text-sm md:text-lg max-w-2xl mx-auto">
               Generate aesthetic weekly & monthly updates.
@@ -297,14 +298,14 @@ export default function SeismicGreetingGenerator() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-2 flex justify-between">
+                  <label className=" text-xs font-bold text-stone-400 uppercase tracking-wider mb-2 flex justify-between">
                     <span>Current Quote</span>
                     <button onClick={getRandomQuote} className="text-[#e2c19d] hover:text-white flex items-center gap-1">
                       <RefreshCw className="w-3 h-3" /> Randomize
                     </button>
                   </label>
                   <div className="bg-black/50 border border-white/10 rounded-xl p-4 text-sm italic text-stone-300">
-                    "{currentQuote}"
+                    &quot;{currentQuote}&quot;
                   </div>
                 </div>
 
@@ -353,9 +354,9 @@ export default function SeismicGreetingGenerator() {
 
           <div className="lg:col-span-8 flex flex-col gap-6">
             
-            <div className="bg-[#050505] relative w-full aspect-square max-w-[500px] mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between">
+            <div className="bg-[#050505] relative w-full aspect-square max-w-125 mx-auto rounded-xl overflow-hidden border border-white/10 shadow-2xl p-6 sm:p-10 flex flex-col items-center justify-between">
               
-              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[40px_40px] pointer-events-none" />
 
               <div className="absolute top-4 left-4 w-12 h-12 border-t-2 border-l-2 pointer-events-none" style={{ borderColor: activeMag.color }} />
               <div className="absolute top-4 right-4 w-12 h-12 border-t-2 border-r-2 pointer-events-none" style={{ borderColor: activeMag.color }} />
@@ -370,9 +371,9 @@ export default function SeismicGreetingGenerator() {
                 </h3>
               </div>
 
-              <div className="relative z-10 text-center px-4 w-full max-w-[400px]">
+              <div className="relative z-10 text-center px-4 w-full max-w-100">
                 <p className="text-white text-xl sm:text-2xl font-medium italic leading-snug">
-                  "{currentQuote}"
+                  &quot;{currentQuote}&quot;
                 </p>
               </div>
 
@@ -396,7 +397,7 @@ export default function SeismicGreetingGenerator() {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-[500px] mx-auto w-full">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-125 mx-auto w-full">
               <button 
                 onClick={handleDownload}
                 disabled={isGenerating}
@@ -413,7 +414,7 @@ export default function SeismicGreetingGenerator() {
               </button>
             </div>
             <p className="text-center text-xs text-stone-500 mt-2">
-              Note: Download the image first, then click "Share to X" to attach it to your drafted tweet!
+              Note: Download the image first, then click &quot;Share to X&quot; to attach it to your drafted tweet!
             </p>
 
           </div>
