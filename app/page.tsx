@@ -389,9 +389,8 @@ export default function SeismicHomePageBrown() {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="block"
+                style={{ display: 'block' }}
               >
-                {/* Replaced JS conditional rendering with pure CSS group-hover for touch/mobile support */}
                 <div className="relative rounded-2xl overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 p-1.5 md:p-2 shadow-[0_15px_30px_rgba(0,0,0,0.3)] transition-all duration-500 group">
                   <div className="aspect-video relative overflow-hidden rounded-xl">
                     <Image 
