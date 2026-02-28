@@ -25,10 +25,8 @@ export const logImageDownload = mutation({
       .join(" ");
     const name = trimOrUndefined(args.projectName) ?? (fallbackName || slug);
 
-    let project = await ctx.db
-      .query("projects")
-      .withIndex("by_slug", (q) => q.eq("slug", slug))
-      .unique();
+    const projects = await ctx.db.query("projects").collect();
+    let project = projects.find((item) => item.slug === slug) ?? null;
 
     if (!project) {
       const projectId = await ctx.db.insert("projects", {
@@ -88,11 +86,9 @@ export const getAdminDashboard = query({
         lastDownloadedAt: project.lastDownloadedAt,
       }));
 
-    const recentImages = await ctx.db
-      .query("projectGeneratedImages")
-      .withIndex("by_downloaded_at")
-      .order("desc")
-      .take(imagePreviewLimit);
+    const recentImages = (await ctx.db.query("projectGeneratedImages").collect())
+      .sort((a, b) => b.downloadedAt - a.downloadedAt)
+      .slice(0, imagePreviewLimit);
 
     return {
       totalProjects: rankedProjects.length,
@@ -112,10 +108,8 @@ export const getProjectImages = query({
     const slug = args.projectSlug.trim().toLowerCase();
     const limit = Math.min(Math.max(args.limit ?? 50, 1), 200);
 
-    const project = await ctx.db
-      .query("projects")
-      .withIndex("by_slug", (q) => q.eq("slug", slug))
-      .unique();
+    const projects = await ctx.db.query("projects").collect();
+    const project = projects.find((item) => item.slug === slug) ?? null;
 
     if (!project) {
       return {
@@ -124,11 +118,10 @@ export const getProjectImages = query({
       };
     }
 
-    const images = await ctx.db
-      .query("projectGeneratedImages")
-      .withIndex("by_project", (q) => q.eq("projectId", project._id))
-      .order("desc")
-      .take(limit);
+    const images = (await ctx.db.query("projectGeneratedImages").collect())
+      .filter((image) => image.projectId === project._id)
+      .sort((a, b) => b.downloadedAt - a.downloadedAt)
+      .slice(0, limit);
 
     return {
       project: {
