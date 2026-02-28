@@ -21,14 +21,16 @@ export const projects: ProjectDefinition[] = [
   //   image: "/mag1.jpg",
   //   route: "/projects/card",
   // },
-  // {
-  //   id: "week",
-  //   title: "Seismic Week Greeting Generator",
-  //   description: "Generate a themed Seismic greeting image for this week.",
-  //   image: "/mag8.jpg",
-  //   route: "/projects/week",
-  // },
+  {
+    id: "week",
+    title: "Seismic Week Greeting Generator",
+    description: "Generate a themed Seismic greeting image for this week.",
+    image: "/week.png",
+    route: "/projects/week",
+  },
 ];
 
 export const projectById = (id: string) =>
   projects.find((project) => project.id === id.toLowerCase());
+
+

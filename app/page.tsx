@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -7,6 +8,7 @@ import { Rocket, ArrowRight, ExternalLink, Lock, Check, RefreshCw, Github, Volum
 import Link from 'next/link';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import { projects } from '@/lib/projects';
 
 // --- TYPES ---
 interface Video {
@@ -19,13 +21,13 @@ interface Video {
   authorHandle: string;
 }
 
-interface Project {
-  id: string;
-  image: string;
-  title: string;
-  description: string;
-  link: string;
-}
+// interface Project {
+//   id: string;
+//   image: string;
+//   title: string;
+//   description: string;
+//   link: string;
+// }
 
 // --- DATA ---
 const videos: Video[] = [
@@ -50,7 +52,7 @@ const videos: Video[] = [
 ];
 
 // Leave this array empty to see the "Coming Soon" state
-const communityProjects: Project[] = [];
+const communityProjects: any = projects.slice(0,4);
 
 /* // Uncomment this to restore the projects
 const communityProjects: Project[] = [
@@ -336,7 +338,7 @@ export default function SeismicHomePageBrown() {
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {communityProjects.map((project, index) => (
+              {communityProjects.map((project:any, index:any) => (
                 <motion.div
                   key={project.id}
                   initial={{ opacity: 0, y: 50 }}
@@ -363,7 +365,7 @@ export default function SeismicHomePageBrown() {
                           <div className="flex items-center justify-between mt-2">
                             <span className="text-stone-300 text-xs truncate mr-2">{project.description}</span>
                             <Link
-                              href={project.link}
+                              href={project.route}
                               className="text-[#e2c19d] hover:text-white transition-colors flex items-center gap-1 text-xs shrink-0"
                             >
                               <span>View</span>

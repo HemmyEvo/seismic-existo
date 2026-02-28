@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
@@ -7,6 +6,10 @@ import { Download, Twitter, RefreshCw, Calendar } from 'lucide-react';
 import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+
+// 1. Import Convex hooks
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
 
 // --- DATA ---
 const magnitudes = [
@@ -21,17 +24,22 @@ const magnitudes = [
   { id: 9, name: "Magnitude 9", color: "#00D2FF", chipUrl: "/mag9.jpg" }
 ];
 
+type ThemeType = 'week-start' | 'week-end' | 'month-start' | 'month-end';
+
 export default function SeismicGreetingGenerator() {
   const [name, setName] = useState<string>('Existo');
   const [magIndex, setMagIndex] = useState<number>(0);
   const [userImage, setUserImage] = useState<string>('/profile.jpeg'); 
-  const [theme, setTheme] = useState<'week-start' | 'week-end' | 'month-start' | 'month-end'>('month-start');
+  const [theme, setTheme] = useState<ThemeType>('month-start');
   const [currentQuote, setCurrentQuote] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [currentMonth, setCurrentMonth] = useState<string>('Cycle');
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeMag = magnitudes[magIndex];
+
+  // 2. Initialize the Convex mutation
+  const logDownload = useMutation(api.projects.logImageDownload);
 
   // Safely get the current month on the client side
   useEffect(() => {
@@ -40,35 +48,223 @@ export default function SeismicGreetingGenerator() {
   }, []);
 
   // --- DYNAMIC DATA (Depends on currentMonth) ---
-  const dynamicThemes = {
+  const dynamicThemes: Record<ThemeType, { label: string; title: string }> = {
     "week-start": { label: "Week Starting", title: "NEW WEEK ALIGNED" },
     "week-end": { label: "Week Ending", title: "WEEK CONCLUDED" },
     "month-start": { label: "Month Starting", title: `WELCOME TO ${currentMonth.toUpperCase()}` },
     "month-end": { label: "Month Ending", title: `${currentMonth.toUpperCase()} CONCLUDED` }
   };
 
-  const dynamicQuotes = {
-    "week-start": [
-      "A new week, a new block. Build relentlessly.",
-      "Momentum is created, not found. Seize the week.",
-      "Deploy your vision. The week is yours to command."
-    ],
-    "week-end": [
-      "Rest is part of the protocol. Recharge for the next cycle.",
-      "Reflect on the blocks built. The week is secure.",
-      "Greatness takes time. Step back and view the architecture."
-    ],
-    "month-start": [
-      `A new chapter in the ledger. What will you write in ${currentMonth}?`,
-      `Broaden your bandwidth. ${currentMonth} holds infinite potential.`,
-      `Initialize greatness. Welcome to ${currentMonth}.`
-    ],
-    "month-end": [
-      `Milestones achieved. Data processed. Farewell, ${currentMonth}.`,
-      `Look at the network you've built. ${currentMonth} was a success.`,
-      `Close the loops. A phenomenal ${currentMonth} comes to a halt.`
-    ]
-  };
+const dynamicQuotes: Record<ThemeType, string[]> = {
+  "week-start": [
+    "A new week, a new block. Build relentlessly.",
+    "Momentum is created, not found. Seize the week.",
+    "Deploy your vision. The week is yours to command.",
+    "System reboot complete. Initialize the week's objectives.",
+    "The genesis block of the week. Mine it well.",
+    "Clear your cache. Execute the Monday protocol.",
+    "Spin up your nodes. It’s time to sync with the network.",
+    "Open a new terminal. The week awaits your commands.",
+    "Commit to greatness. Push your limits this week.",
+    "New week detected. Compiling success algorithms.",
+    "Route your focus. Bandwidth is precious this week.",
+    "Ping your goals. Expect a 100% success rate.",
+    "Your weekly compute cycle begins now. Optimize it.",
+    "Break the week down into actionable commits.",
+    "Merge your ambition with action. Let’s build.",
+    "A fresh sprint starts today. Track your velocity.",
+    "Unlock the vault. The week's potential is unencrypted.",
+    "Run the start-up script. Let's get to work.",
+    "Allocate your memory to what matters most this week.",
+    "No syntax errors today. Just flawless execution.",
+    "The server is live. Broadcast your intent to the world.",
+    "A blank canvas in the console. Write the master code.",
+    "Parse the week's challenges. Output nothing but wins.",
+    "Initialize the main loop. Keep iterating until victory.",
+    "Establish a secure connection to your goals today.",
+    "Elevate your permissions. Take control of the week.",
+    "Decrypt Monday. The key is relentless focus.",
+    "Your architecture is solid. Now scale it up this week.",
+    "Ready the payload. This week, we launch.",
+    "Query the database of your potential. Return maximum results.",
+    "Format the noise. Write only clean logic this week.",
+    "Your uptime starts now. Keep the momentum continuous.",
+    "Generate the keys to this week's success.",
+    "Shift your paradigm. The week is ripe for innovation.",
+    "Resolve all dependencies. You are the sole architect today.",
+    "Open-source your energy. Lead by example this week.",
+    "Bypass the firewall of doubt. Execute your vision.",
+    "Mount the new volume. The week's data is ready to be written.",
+    "Set your environment variables for absolute success.",
+    "The network is waiting for your next broadcast. Make it loud.",
+    "Synchronize your team. Let the weekly build commence.",
+    "Automate your discipline. Let success run in the background.",
+    "Hash your intentions. Make them immutable this week.",
+    "Boot sequence initiated. Ready for high-level operations.",
+    "Index your priorities. Query them daily.",
+    "Optimize your query execution. Make every day count.",
+    "Refactor your mindset. It’s a brand new week.",
+    "The pipeline is clear. Push to production.",
+    "Validate your inputs. This week demands quality data.",
+    "A 200 OK status for the week ahead. Start building."
+  ],
+  "week-end": [
+    "Rest is part of the protocol. Recharge for the next cycle.",
+    "Reflect on the blocks built. The week is secure.",
+    "Greatness takes time. Step back and view the architecture.",
+    "Initiating cool-down sequence. Power down and disconnect.",
+    "Run garbage collection. Clear your mind for the weekend.",
+    "Commit your progress. The weekly sprint is complete.",
+    "Save state. It's time to log off and reset.",
+    "Bandwidth exhausted. Enter sleep mode.",
+    "Close all open ports. Secure your peace of mind.",
+    "The server needs maintenance. Take time to heal and rest.",
+    "End of execution block. Review the logs tomorrow.",
+    "Your uptime was stellar. Now enjoy some well-earned latency.",
+    "Disconnect from the node. Reconnect with yourself.",
+    "Weekly variables stored. RAM cleared.",
+    "Successful deployment. Now let the system idle.",
+    "Terminate background processes. Focus on recovery.",
+    "Let the algorithms rest. Human mode activated.",
+    "Compile your thoughts. The week's build is stable.",
+    "Put the project in standby. Life happens offline.",
+    "Defragment your brain. You've processed enough data.",
+    "Archive the week's stress. It’s no longer needed.",
+    "Shift offline. The real world has better resolution.",
+    "Pause the cron jobs. Let the weekend flow naturally.",
+    "Unplug the ethernet. Go wireless for a few days.",
+    "The ledger is updated. Your work here is done.",
+    "Close the terminal. Open a book instead.",
+    "You’ve earned your bandwidth back. Spend it on joy.",
+    "Save and Exit. The weekend protocol is now active.",
+    "System override: Mandating 48 hours of relaxation.",
+    "Store your achievements in long-term memory.",
+    "Acknowledge the week's runtime. You did well.",
+    "Log out of the grid. Nature has no API limits.",
+    "Graceful shutdown initialized. See you Monday.",
+    "Review your analytics later. Now is the time to breathe.",
+    "The firewall is up against work emails. Enjoy the weekend.",
+    "Task failed successfully: You worked hard, now rest harder.",
+    "Cache cleared. Returning to a state of zen.",
+    "No more queries until Monday. Database locked.",
+    "You’ve reached the end of the loop. Break and rest.",
+    "Your hardware needs cooling. Step away from the screen.",
+    "Power saving mode on. Conserve your energy.",
+    "Unmount the work drive. Mount the weekend drive.",
+    "Syncing complete. Enjoy the offline experience.",
+    "Drop all tables of stress. Rebuild them never.",
+    "The week's code is pushed. Let it run without you.",
+    "Halt execution. Enjoy the silence of the hardware.",
+    "Disconnecting from the matrix. Welcome back to reality.",
+    "The week's transaction is confirmed. Take a break.",
+    "Your API is rate-limited until Monday morning.",
+    "Shut down all containers. Let the host machine rest."
+  ],
+  "month-start": [
+    `A new chapter in the ledger. What will you write in ${currentMonth}?`,
+    `Broaden your bandwidth. ${currentMonth} holds infinite potential.`,
+    `Initialize greatness. Welcome to ${currentMonth}.`,
+    `A macro-cycle begins. Set your global variables for ${currentMonth}.`,
+    `Version ${currentMonth} is now live. Read the release notes of your life.`,
+    `The ${currentMonth} block has been mined. Start building on top of it.`,
+    `Clear the monthly cache. ${currentMonth} requires fresh logic.`,
+    `Deploy the ${currentMonth} roadmap. Stick to the architecture.`,
+    `A new directory created: /${currentMonth}. Fill it with value.`,
+    `Ping the future. ${currentMonth} is responding with low latency.`,
+    `Update your dependencies. ${currentMonth} demands a better you.`,
+    `The ${currentMonth} genesis state is set. What’s your first move?`,
+    `Allocate major computing power to your ${currentMonth} objectives.`,
+    `Welcome to ${currentMonth}. Your access tokens have been refreshed.`,
+    `A new database partition: ${currentMonth}. Write high-quality data.`,
+    `Scale up. ${currentMonth} is the time for enterprise-level growth.`,
+    `Booting the ${currentMonth} environment. All systems nominal.`,
+    `Let ${currentMonth} be your most optimized iteration yet.`,
+    `Querying the next 30 days: Endless possibilities found in ${currentMonth}.`,
+    `Merge the lessons of the past. Commit to a flawless ${currentMonth}.`,
+    `Open a new socket. ${currentMonth} is ready to receive data.`,
+    `Format the timeline. ${currentMonth} is a clean slate.`,
+    `The ${currentMonth} network upgrade is complete. Enjoy the new features.`,
+    `Initialize ${currentMonth}.sh. Let the automation of success begin.`,
+    `Your quota has been reset for ${currentMonth}. Use every cycle.`,
+    `Load balancing complete. You are ready to handle ${currentMonth}.`,
+    `Welcome to the ${currentMonth} runtime. Execute with precision.`,
+    `Elevate your privileges this ${currentMonth}. You are the superuser.`,
+    `New hash generated. ${currentMonth} is officially secured.`,
+    `Drop the legacy code. ${currentMonth} is about modern solutions.`,
+    `The ${currentMonth} daemon is running in the background. Keep moving forward.`,
+    `Mount the ${currentMonth} filesystem. Prepare for heavy read/writes.`,
+    `Unlock the ${currentMonth} achievements. The game starts now.`,
+    `Establish a baseline for ${currentMonth}. Then shatter it.`,
+    `Your ${currentMonth} repository is initialized. Time for the first commit.`,
+    `Syncing with the ${currentMonth} satellite. Signal is strong.`,
+    `The logic gate opens. Step into ${currentMonth} with purpose.`,
+    `Configure your settings for maximum output in ${currentMonth}.`,
+    `A new thread spawned. ${currentMonth} is running concurrently.`,
+    `Decrypt the opportunities hidden within ${currentMonth}.`,
+    `Welcome to the ${currentMonth} cluster. Let's process some massive goals.`,
+    `Set your status to 'Building'. ${currentMonth} takes no days off.`,
+    `The ${currentMonth} domain has been registered. Start hosting.`,
+    `Pull the latest image for ${currentMonth}. Let's get deploying.`,
+    `Map your inputs to incredible outputs this ${currentMonth}.`,
+    `The syntax of ${currentMonth} is yours to define.`,
+    `Welcome to the ${currentMonth} sandbox. Build without limits.`,
+    `Start the ${currentMonth} instance. It's time to go live.`,
+    `A new genesis file created. ${currentMonth} is online.`,
+    `Optimize your routing. The path to success in ${currentMonth} is clear.`
+  ],
+  "month-end": [
+    `Milestones achieved. Data processed. Farewell, ${currentMonth}.`,
+    `Look at the network you've built. ${currentMonth} was a success.`,
+    `Close the loops. A phenomenal ${currentMonth} comes to a halt.`,
+    `Compile the monthly report. ${currentMonth} is officially in the logs.`,
+    `End of file reached for ${currentMonth}. Saving progress.`,
+    `The ${currentMonth} iteration is complete. Time to review the metrics.`,
+    `Archive ${currentMonth}. It’s time to prepare the next volume.`,
+    `Shutting down the ${currentMonth} environment. All data secured.`,
+    `Run the retrospective. What bugs did we squash in ${currentMonth}?`,
+    `The ${currentMonth} ledger is balanced and immutable.`,
+    `Garbage collection for ${currentMonth} complete. Moving forward.`,
+    `Acknowledge the runtime of ${currentMonth}. You executed well.`,
+    `Push the final commits for ${currentMonth}. The branch is closing.`,
+    `Save state. ${currentMonth} has been successfully rendered.`,
+    `The ${currentMonth} node is syncing its final blocks.`,
+    `Exporting ${currentMonth} analytics. The data looks incredible.`,
+    `Close the ${currentMonth} directory. We are moving up a level.`,
+    `The ${currentMonth} daemon is spinning down. Great work.`,
+    `Commit history for ${currentMonth} looks solid. No rollbacks needed.`,
+    `Disconnecting from ${currentMonth}. Preparing for the next handshake.`,
+    `The ${currentMonth} protocol has reached its end-of-life. Upgrade pending.`,
+    `Store the memories of ${currentMonth} in cold storage.`,
+    `Closing all active connections for ${currentMonth}.`,
+    `The bandwidth of ${currentMonth} has been fully utilized.`,
+    `Finalize the ${currentMonth} build. It was a stable release.`,
+    `Log out of ${currentMonth}. You've earned the transition.`,
+    `The ${currentMonth} cycle has terminated successfully. Exit code 0.`,
+    `Unmount ${currentMonth}. The drive is full of accomplishments.`,
+    `Verify the checksum for ${currentMonth}. Everything is intact.`,
+    `The ${currentMonth} server is being decommissioned. Stand by.`,
+    `Flush the DNS cache. We are routing away from ${currentMonth}.`,
+    `The ${currentMonth} smart contract has been fully executed.`,
+    `Terminate the ${currentMonth} instance. It served us well.`,
+    `Review your root permissions. You owned ${currentMonth}.`,
+    `End of the macro-loop. ${currentMonth} is exiting gracefully.`,
+    `The ${currentMonth} repository is now read-only.`,
+    `Generate the final hash for ${currentMonth}. Seal the records.`,
+    `The firewall closes on ${currentMonth}. Secure the perimeter.`,
+    `Acknowledge the packets received in ${currentMonth}. Good transmission.`,
+    `The ${currentMonth} session has expired. Please authenticate the next.`,
+    `Drop the ${currentMonth} tables from active memory.`,
+    `The ${currentMonth} compilation finished with zero warnings.`,
+    `Close the terminal window on ${currentMonth}.`,
+    `The ping to ${currentMonth} has timed out. It is officially in the past.`,
+    `Wrap up the API calls. ${currentMonth} is deprecating tonight.`,
+    `The pipeline for ${currentMonth} is flushed and clear.`,
+    `Extract the value from ${currentMonth}. Discard the rest.`,
+    `The ${currentMonth} sub-routine has finished executing.`,
+    `Stop the background workers for ${currentMonth}. They’ve done enough.`,
+    `Halt the ${currentMonth} processor. Prepare for the reboot.`
+  ]
+};
 
   // Set initial random quote on load, theme change, or month load
   useEffect(() => {
@@ -239,19 +435,22 @@ export default function SeismicGreetingGenerator() {
       ctx.lineWidth = 2;
       ctx.strokeRect(chipX, chipY, chipW, chipH);
 
+      // Generate Data URL
       const finalImage = canvas.toDataURL("image/png");
-      await fetch("/api/analytics/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          projectSlug: "week",
-          projectName: "Seismic Week Greeting Generator",
-          imageData: finalImage,
-          generatedByName: name,
-          generatedByHandle: name,
-        }),
-      }).catch(() => null);
 
+      // 3. Call Convex instead of Fetch API
+      await logDownload({
+        projectSlug: `seismic-${theme}`, // Using a dynamic slug to separate week vs month data 
+        projectName: `Seismic ${dynamicThemes[theme].label} Generator`,
+        imageData: finalImage,
+        generatedByName: name,
+        generatedByHandle: name,
+      }).catch((err) => {
+        // Silently fail logging rather than breaking the user download
+        console.error("Failed to log download to Convex", err);
+      });
+
+      // Trigger download
       const link = document.createElement("a");
       link.href = finalImage;
       link.download = `Seismic_${theme}_${name}.png`;
@@ -300,7 +499,7 @@ export default function SeismicGreetingGenerator() {
                   <label className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Greeting Type</label>
                   <select 
                     value={theme}
-                    onChange={(e) => setTheme(e.target.value as any)}
+                    onChange={(e) => setTheme(e.target.value as ThemeType)}
                     className="w-full bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white appearance-none focus:outline-none focus:border-[#e2c19d]"
                   >
                     {Object.entries(dynamicThemes).map(([key, val]) => (

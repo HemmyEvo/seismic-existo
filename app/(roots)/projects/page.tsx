@@ -29,7 +29,22 @@ export default function ProjectsPage() {
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white">Ecosystem Projects</h1>
           <p className="text-lg md:text-xl text-stone-400 max-w-2xl font-medium">Open a project page and generate images. Downloads are tracked for admin analytics.</p>
         </div>
-
+        {projects.length === 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.6 }}
+                      style={{ width: '100%', display: 'block' }}
+                    >
+                      <div className="flex flex-col items-center justify-center py-16 md:py-20 px-4 text-center border border-white/5 bg-white/5 backdrop-blur-md rounded-3xl mt-8">
+                        <h3 className="text-2xl md:text-3xl font-bold text-white mb-3">Coming Soon</h3>
+                        <p className="text-stone-400 text-base md:text-lg max-w-md">
+                          Exciting new community projects are currently in the works. Check back later!
+                        </p>
+                      </div>
+                    </motion.div>
+                  ) }
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
             {projects.map((project, index) => (

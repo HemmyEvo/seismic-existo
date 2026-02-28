@@ -7,6 +7,10 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+// 1. Import Convex hooks
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 // --- DATA ---
 const specialties = ["Leader", "Builder", "Content Creator"];
 
@@ -32,6 +36,9 @@ export default function SeismicCardGenerator() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const activeMag = magnitudes[magIndex];
+
+  // 2. Initialize the Convex mutation
+  const logDownload = useMutation(api.projects.logImageDownload);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -137,17 +144,15 @@ export default function SeismicCardGenerator() {
       let dW, dH, dX, dY;
       
       if (cAspect > bAspect) {
-        // Image is wider than container aspect ratio
         dH = chipH;
         dW = chipH * cAspect;
         dY = chipY;
-        dX = chipX - (dW - chipW) / 2; // Center horizontally
+        dX = chipX - (dW - chipW) / 2;
       } else {
-        // Image is taller than container aspect ratio
         dW = chipW;
         dH = chipW / cAspect;
         dX = chipX;
-        dY = chipY - (dH - chipH) / 2; // Center vertically
+        dY = chipY - (dH - chipH) / 2;
       }
       ctx.drawImage(chipImg, dX, dY, dW, dH);
       ctx.restore();
@@ -212,20 +217,22 @@ export default function SeismicCardGenerator() {
       ctx.font = '900 64px system-ui, sans-serif';
       ctx.fillText(displayName, 60, canvas.height - 60);
 
-      // 11. Generate and Trigger Download
+      // Generate Data URL
       const finalImage = canvas.toDataURL("image/png");
-      await fetch("/api/analytics/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          projectSlug: "card",
-          projectName: "Seismic Card Generator",
-          imageData: finalImage,
-          generatedByName: name,
-          generatedByHandle: handle,
-        }),
-      }).catch(() => null);
 
+      // 3. Call Convex instead of Fetch API
+      await logDownload({
+        projectSlug: "seismic-citizen-card",
+        projectName: "Seismic Citizen Card Generator",
+        imageData: finalImage,
+        generatedByName: name,
+        generatedByHandle: handle,
+      }).catch((err) => {
+        // Silently fail logging rather than breaking the user download
+        console.error("Failed to log download to Convex", err);
+      });
+
+      // Trigger download
       const link = document.createElement("a");
       link.href = finalImage;
       link.download = `Seismic_Card_${handle || 'Citizen'}.png`;

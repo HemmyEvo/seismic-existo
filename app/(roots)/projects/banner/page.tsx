@@ -7,17 +7,20 @@ import Image from 'next/image';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+// 1. Import Convex hooks
+import { useMutation } from "convex/react";
+import { api } from "@/convex/_generated/api";
+
 // --- DATA ---
 const banners = [
   "/background.avif", 
   "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2832&auto=format&fit=crop", 
   "https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=2832&auto=format&fit=crop", 
   "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"  ,
-
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNE-UpGrUkES7gC1j-L_fdoNT0PE8yXlnBb2rCYCaFNw&s=10",
-"https://www.nftgators.com/wp-content/uploads/2025/11/Seismic-Web3-Security.jpg",
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQku3hmDo9_fNZ3RhGz2v4ZgNpJ2j6r819L3jISGhrOjA&s=10",
-"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS26vOASZwKIVoaMO5U-s1h1OhbsPsdN78ppWQemtpVg&s=10"
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNE-UpGrUkES7gC1j-L_fdoNT0PE8yXlnBb2rCYCaFNw&s=10",
+  "https://www.nftgators.com/wp-content/uploads/2025/11/Seismic-Web3-Security.jpg",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQku3hmDo9_fNZ3RhGz2v4ZgNpJ2j6r819L3jISGhrOjA&s=10",
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS26vOASZwKIVoaMO5U-s1h1OhbsPsdN78ppWQemtpVg&s=10"
 ];
 
 const captions = [
@@ -33,6 +36,9 @@ export default function SeismicBannerGenerator() {
   const [name, setName] = useState<string>('');
   const [handle, setHandle] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
+
+  // 2. Initialize the Convex mutation
+  const logDownload = useMutation(api.projects.logImageDownload);
 
   // Native HTML5 Canvas Image Generation
   const handleDownload = async () => {
@@ -142,20 +148,22 @@ export default function SeismicBannerGenerator() {
       ctx.font = '800 22px system-ui, -apple-system, sans-serif';
       ctx.fillText('SEISMIC', pillX + 65, pillY + 38);
 
-      // 8. Generate and Trigger Download
+      // Generate Data URL
       const image = canvas.toDataURL("image/png");
-      await fetch("/api/analytics/download", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          projectSlug: "banner",
-          projectName: "Seismic Banner Generator",
-          imageData: image,
-          generatedByName: name,
-          generatedByHandle: handle,
-        }),
-      }).catch(() => null);
 
+      // 3. Call Convex instead of Fetch API
+      await logDownload({
+        projectSlug: "seismic-twitter-banner",
+        projectName: "Seismic Banner Generator",
+        imageData: image,
+        generatedByName: name,
+        generatedByHandle: handle,
+      }).catch((err) => {
+        // Silently fail logging rather than breaking the user download
+        console.error("Failed to log download to Convex", err);
+      });
+
+      // Trigger download
       const link = document.createElement("a");
       link.href = image;
       link.download = `Seismic_Banner_${handle || 'Profile'}.png`;
@@ -296,7 +304,7 @@ export default function SeismicBannerGenerator() {
                     <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/30 to-transparent opacity-90" />
 
                     <div className="relative z-10 flex justify-end w-full">
-                       <div className="w-32 h-1.5 bg-linear-to-r from-[#8b5a2b] via-[#e2c19d] to-transparent opacity-80 rounded-full" />
+                        <div className="w-32 h-1.5 bg-linear-to-r from-[#8b5a2b] via-[#e2c19d] to-transparent opacity-80 rounded-full" />
                     </div>
 
                     <div className="relative z-10 flex justify-between items-end w-full mt-auto">
